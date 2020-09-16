@@ -1,4 +1,4 @@
-import { Confidence } from "./utils/Confidence";
+import { Confidence } from './utils/Confidence';
 
 export interface QuestionResponse {
   confidence: Confidence | undefined;

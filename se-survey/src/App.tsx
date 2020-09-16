@@ -1,13 +1,13 @@
-import { QuestionGroup, QuestionResponse } from './Types';
+import { QuestionGroup, QuestionResponse } from './DataTypes';
 import React, { useState } from 'react';
-import logo from './images/se-logo-color.png';
 import questionJson from './files/questions.json';
-import { useRouteMatch, match, useHistory, Link } from 'react-router-dom';
+import { useRouteMatch, match, useHistory } from 'react-router-dom';
 import { confirmAlert } from 'react-confirm-alert';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCopy, faCog } from '@fortawesome/free-solid-svg-icons';
-import { Questionnaire } from './components/Questionnaire';
 import { mapHash, getHash } from './utils/Hasher';
+import Header from './components/Header';
+import Menu from './components/Menu';
+import Questionnaire from './components/Questionnaire';
+import ShareInfo from './components/ShareInfo';
 
 export const loadData = () => {
   const result: QuestionGroup[] = JSON.parse(JSON.stringify(questionJson));
@@ -15,7 +15,6 @@ export const loadData = () => {
 };
 
 type TParams = { id?: string | undefined };
-const symbols: string[] = ['✓', '✔', '✘', '❌', '✅', '★', '🎵', '🔴'];
 
 const App = () => {
   const match: match<TParams> = useRouteMatch();
@@ -77,82 +76,23 @@ const App = () => {
 
   return (
     <div className="App">
-      <div className="overlay">
-        <div className="dropleft m-2 float-right menu-button">
-          <button
-            className="btn btn-primary dropdown-toggle"
-            type="button"
-            id="dropdownMenuButton"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            <FontAwesomeIcon icon={faCog} />
-          </button>
-          <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <span
-              className="dropdown-item pointer"
-              onClick={() => setUseEmoji(!useEmoji)}
-            >
-              {useEmoji ? 'Text Headings' : 'Emoji Headings'}
-            </span>
-            <div className="dropdown-divider"></div>
-            {symbols.map((symbol) => {
-              return (
-                <span
-                  key={symbol}
-                  className={
-                    'dropdown-item pointer' +
-                    (symbol === tickSymbol ? ' bg-primary text-white' : '')
-                  }
-                  onClick={() => setTickSymbol(symbol)}
-                >
-                  {symbol}
-                </span>
-              );
-            })}
-          </div>
-        </div>
-      </div>
+      <Menu
+        useEmoji={useEmoji}
+        selectedSymbol={tickSymbol}
+        onUseEmojiToggled={setUseEmoji}
+        onSymbolSelected={setTickSymbol}
+      />
 
       <div className="container fluid">
         <div>
-          <div className="row align-items-center">
-            <div className="col-md-auto text-center">
-              <img src={logo} className="logo m-4 col-sm" alt="logo" />
-            </div>
-            <div className="col align-middle text-center">
-              <h3 className="col-sm text-uppercase w-100">
-                How do we know what we know?
-              </h3>
-            </div>
-          </div>
+          <Header />
           {!isEmpty ? (
-            <div className="mb-2 text-center mx-auto">
-              <div className="border rounded p-2 align-middle d-inline-block mt-2 bg-light">
-                <a className="text-break" href={url}>
-                  {url}
-                </a>
-              </div>
-              <button
-                className="btn btn-primary d-inline align-middle ml-1 mt-2"
-                onClick={onCopy}
-              >
-                <FontAwesomeIcon icon={faCopy} />
-              </button>
-              <button
-                className="btn btn-primary d-inline align-middle ml-1 mt-2"
-                onClick={onReset}
-              >
-                Reset
-              </button>
-              <button
-                className="btn btn-primary d-inline align-middle ml-1 mt-2 mt-twitter-share-button"
-                onClick={() => window.open(tweetUrl, '_blank')}
-              >
-                Tweet
-              </button>
-            </div>
+            <ShareInfo
+              url={url}
+              onCopy={onCopy}
+              onReset={onReset}
+              tweetUrl={tweetUrl}
+            />
           ) : null}
         </div>
         <Questionnaire
