@@ -1,16 +1,18 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
+import { getHashUrl } from '../utils/UrlHelper';
 
 interface ShareInfoProps {
-  url: string;
+  hash: string;
   onCopy: () => void;
   onReset: () => void;
   tweetUrl: string;
 }
 
 const ShareInfo: React.FC<ShareInfoProps> = ({
-  url,
+  hash,
   onCopy,
   onReset,
   tweetUrl,
@@ -18,9 +20,9 @@ const ShareInfo: React.FC<ShareInfoProps> = ({
   return (
     <div className="mb-2 text-center mx-auto">
       <div className="border rounded p-2 align-middle d-inline-block mt-2 bg-light">
-        <a className="text-break" href={url}>
-          {url}
-        </a>
+        <Link className="text-break" to={'/' + hash}>
+          {getHashUrl(hash)}
+        </Link>
       </div>
       <button
         className="btn btn-primary d-inline align-middle ml-1 mt-2"

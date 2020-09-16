@@ -8,6 +8,7 @@ import Header from './components/Header';
 import Menu from './components/Menu';
 import Questionnaire from './components/Questionnaire';
 import ShareInfo from './components/ShareInfo';
+import { getHashUrl } from './utils/UrlHelper';
 
 export const loadData = () => {
   const result: QuestionGroup[] = JSON.parse(JSON.stringify(questionJson));
@@ -68,8 +69,7 @@ const App = () => {
   const hash = getHash(questionGroups);
   const hashExp = new RegExp('^A*$');
   const isEmpty = !hashExp || hashExp.test(hash);
-  const url =
-    window.location.protocol + '//' + window.location.host + '/' + hash;
+  const url = getHashUrl(hash);
   const tweetUrl =
     'https://twitter.com/intent/tweet?text=' +
     encodeURI(
@@ -91,7 +91,7 @@ const App = () => {
           <Header />
           {!isEmpty ? (
             <ShareInfo
-              url={url}
+              hash={hash}
               onCopy={handleCopy}
               onReset={handleReset}
               tweetUrl={tweetUrl}
