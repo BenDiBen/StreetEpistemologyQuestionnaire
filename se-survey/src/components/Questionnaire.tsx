@@ -30,7 +30,7 @@ export const Questionnaire: React.FC<QuestionnaireProps> = ({
           </thead>
           <tbody>
             {group.questions.map((question, questionNo) => {
-              let lineNo = groupNo * 6 + questionNo + 1;
+              const lineNo = groupNo * 6 + questionNo + 1;
               return (
                 <Question
                   key={question.question}

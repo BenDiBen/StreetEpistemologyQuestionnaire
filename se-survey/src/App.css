@@ -37,6 +37,11 @@ img.logo {
   }
 }
 
+.zoom {
+  zoom: 1.5;
+  -moz-transform: scale(1.5);
+}
+
 /*MENU*/
 .overlay {
   position: fixed;
