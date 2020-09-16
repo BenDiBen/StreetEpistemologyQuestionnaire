@@ -1,13 +1,13 @@
-import { QuestionGroup, QuestionResponse } from "./Types";
-import React, { useState } from "react";
-import logo from "./images/se-logo-color.png";
-import questionJson from "./files/questions.json";
-import { useRouteMatch, match, useHistory } from "react-router-dom";
-import { confirmAlert } from "react-confirm-alert";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCopy, faCog } from "@fortawesome/free-solid-svg-icons";
-import { Questionnaire } from "./components/Questionnaire";
-import { mapHash, getHash } from "./utils/Hasher";
+import { QuestionGroup, QuestionResponse } from './Types';
+import React, { useState } from 'react';
+import logo from './images/se-logo-color.png';
+import questionJson from './files/questions.json';
+import { useRouteMatch, match, useHistory, Link } from 'react-router-dom';
+import { confirmAlert } from 'react-confirm-alert';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCopy, faCog } from '@fortawesome/free-solid-svg-icons';
+import { Questionnaire } from './components/Questionnaire';
+import { mapHash, getHash } from './utils/Hasher';
 
 export const loadData = () => {
   const result: QuestionGroup[] = JSON.parse(JSON.stringify(questionJson));
@@ -15,7 +15,7 @@ export const loadData = () => {
 };
 
 type TParams = { id?: string | undefined };
-const symbols: string[] = ["✓", "✔", "✘", "❌", "✅", "★", "🎵", "🔴"];
+const symbols: string[] = ['✓', '✔', '✘', '❌', '✅', '★', '🎵', '🔴'];
 
 const App = () => {
   const match: match<TParams> = useRouteMatch();
@@ -24,7 +24,7 @@ const App = () => {
     mapHash(match.params.id, loadData())
   );
   const [useEmoji, setUseEmoji] = useState<boolean>(true);
-  const [tickSymbol, setTickSymbol] = useState<string>("✓");
+  const [tickSymbol, setTickSymbol] = useState<string>('✓');
 
   const handleSelection = (response: QuestionResponse) => {
     let newGroups = [...questionGroups];
@@ -40,18 +40,18 @@ const App = () => {
 
   const onReset = () => {
     confirmAlert({
-      title: "Reset",
-      message: "Are you sure you want to clear all your answers?",
+      title: 'Reset',
+      message: 'Are you sure you want to clear all your answers?',
       buttons: [
         {
-          label: "Yes",
+          label: 'Yes',
           onClick: () => {
             setQuestionGroups(loadData());
-            hist.push("/");
+            hist.push('/');
           },
         },
         {
-          label: "No",
+          label: 'No',
           onClick: () => {},
         },
       ],
@@ -59,19 +59,19 @@ const App = () => {
   };
 
   const onCopy = () => {
-    const copy = require("clipboard-copy");
+    const copy = require('clipboard-copy');
     copy(url);
   };
 
   const hash = getHash(questionGroups);
-  const hashExp = new RegExp("^A*$");
+  const hashExp = new RegExp('^A*$');
   const isEmpty = !hashExp || hashExp.test(hash);
   const url =
-    window.location.protocol + "//" + window.location.host + "/" + hash;
+    window.location.protocol + '//' + window.location.host + '/' + hash;
   const tweetUrl =
-    "https://twitter.com/intent/tweet?text=" +
+    'https://twitter.com/intent/tweet?text=' +
     encodeURI(
-      "I completed the Street Epistemology questionnaire. Have a look at my results: &url=" +
+      'I completed the Street Epistemology questionnaire. Have a look at my results: &url=' +
         url
     );
 
@@ -91,10 +91,10 @@ const App = () => {
           </button>
           <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <span
-              className="dropdown-item"
+              className="dropdown-item pointer"
               onClick={() => setUseEmoji(!useEmoji)}
             >
-              {useEmoji ? "Text Headings" : "Emoji Headings"}
+              {useEmoji ? 'Text Headings' : 'Emoji Headings'}
             </span>
             <div className="dropdown-divider"></div>
             {symbols.map((symbol) => {
@@ -102,8 +102,8 @@ const App = () => {
                 <span
                   key={symbol}
                   className={
-                    "dropdown-item" +
-                    (symbol === tickSymbol ? " bg-primary text-white" : "")
+                    'dropdown-item pointer' +
+                    (symbol === tickSymbol ? ' bg-primary text-white' : '')
                   }
                   onClick={() => setTickSymbol(symbol)}
                 >
@@ -148,7 +148,7 @@ const App = () => {
               </button>
               <button
                 className="btn btn-primary d-inline align-middle ml-1 mt-2 mt-twitter-share-button"
-                onClick={() => (window.location.href = tweetUrl)}
+                onClick={() => window.open(tweetUrl, '_blank')}
               >
                 Tweet
               </button>

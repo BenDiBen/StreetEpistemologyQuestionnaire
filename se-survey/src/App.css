@@ -46,6 +46,10 @@ img.logo {
   pointer-events: none;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .menu-button {
   top: 0;
   right: 0;
