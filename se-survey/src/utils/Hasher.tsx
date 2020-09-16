@@ -1,5 +1,5 @@
-import { Confidence } from "./Confidence";
-import { QuestionGroup } from "../DataTypes";
+import Confidence from './Confidence';
+import { QuestionGroup } from '../DataTypes';
 
 const mapConfidenceToNumber = (confidence: Confidence | undefined): number => {
   return (confidence ?? -1) + 1;
@@ -37,10 +37,13 @@ export const getHash = (groups: QuestionGroup[]): string => {
     hashChars.push(pairFlag);
   }
 
-  return hashChars.join("");
+  return hashChars.join('');
 };
 
-export const mapHash = (hash: string | undefined, mapTo: QuestionGroup[]): QuestionGroup[] => {
+export const mapHash = (
+  hash: string | undefined,
+  mapTo: QuestionGroup[]
+): QuestionGroup[] => {
   if (hash === undefined) return mapTo;
   const questions = mapTo.flatMap((group) => group.questions);
   const setConfidenceAtIndex = (

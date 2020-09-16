@@ -19,11 +19,14 @@ type TParams = { id?: string | undefined };
 const App = () => {
   const match: match<TParams> = useRouteMatch();
   const hist = useHistory();
-  const [questionGroups, setQuestionGroups] = useState<QuestionGroup[]>(
-    mapHash(match.params.id, loadData())
-  );
+
+  const questionGroupsFromHash = mapHash(match.params.id, loadData());
+
   const [useEmoji, setUseEmoji] = useState<boolean>(true);
   const [tickSymbol, setTickSymbol] = useState<string>('✓');
+  const [questionGroups, setQuestionGroups] = useState<QuestionGroup[]>(
+    questionGroupsFromHash
+  );
 
   const handleSelection = (response: QuestionResponse) => {
     let newGroups = [...questionGroups];
@@ -37,7 +40,7 @@ const App = () => {
     setQuestionGroups(newGroups);
   };
 
-  const onReset = () => {
+  const handleReset = () => {
     confirmAlert({
       title: 'Reset',
       message: 'Are you sure you want to clear all your answers?',
@@ -57,7 +60,7 @@ const App = () => {
     });
   };
 
-  const onCopy = () => {
+  const handleCopy = () => {
     const copy = require('clipboard-copy');
     copy(url);
   };
@@ -89,8 +92,8 @@ const App = () => {
           {!isEmpty ? (
             <ShareInfo
               url={url}
-              onCopy={onCopy}
-              onReset={onReset}
+              onCopy={handleCopy}
+              onReset={handleReset}
               tweetUrl={tweetUrl}
             />
           ) : null}

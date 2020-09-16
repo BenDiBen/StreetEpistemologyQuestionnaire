@@ -13,3 +13,5 @@ export const ConfidenceLevels = [
   Confidence.Agree,
   Confidence.StronglyAgree,
 ];
+
+export default Confidence;
