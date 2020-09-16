@@ -1,7 +1,7 @@
 import { QuestionGroup, QuestionResponse } from './DataTypes';
 import React, { useState } from 'react';
 import questionJson from './files/questions.json';
-import { useRouteMatch, match, useHistory } from 'react-router-dom';
+import * as Router from 'react-router-dom';
 import { confirmAlert } from 'react-confirm-alert';
 import { mapHash, getHash } from './utils/Hasher';
 import Header from './components/Header';
@@ -17,8 +17,8 @@ export const loadData = () => {
 type TParams = { id?: string | undefined };
 
 const App = () => {
-  const match: match<TParams> = useRouteMatch();
-  const hist = useHistory();
+  const match: Router.match<TParams> = Router.useRouteMatch();
+  const hist = Router.useHistory();
 
   const questionGroupsFromHash = mapHash(match.params.id, loadData());
 
